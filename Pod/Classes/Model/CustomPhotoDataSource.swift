@@ -9,49 +9,49 @@
 import Foundation
 import UIKit
 
-open class CustomPhotoDataSource<T: AnyObject> : NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
+open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var selections = [T]()
-    var items: [T]
+    var items: [T]!
     var viewController: UIViewController
+    var settings: Settings = Settings()
+    let rowHandler: ((T) -> UIImage)
     
     fileprivate let photoCellIdentifier = "photoCellIdentifier"
-//    fileprivate let imageContentMode: PHImageContentMode = .aspectFill
+    //    fileprivate let imageContentMode: PHImageContentMode = .aspectFill
     
     let bundle: Bundle = Bundle(path: Bundle(for: PhotosViewController.self).path(forResource: "BSImagePicker", ofType: "bundle")!)!
     
-    init(_ items: [T], viewController: UIViewController, selections: [T]? = nil, settings: Settings? = nil) {
+    public init(_ items: [T], viewController: UIViewController, rowHandler: @escaping ((T) -> UIImage), selections: [T]? = nil) {
         self.items = items
         self.viewController = viewController
-        self.settings = settings
+        //        self.settings = settings
+        self.rowHandler = rowHandler
         if let selections = selections {
             self.selections = selections
         }
-        super.init()
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         UIView.setAnimationsEnabled(false)
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: photoCellIdentifier, for: indexPath) as! PhotoCell
         cell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
-        if let settings = settings {
-            cell.settings = settings
-        }
+        cell.settings = settings
         let item = self.items[indexPath.row]
-        cell.imageView.image = UIImage(data:item.thumbnail! as Data)
+        cell.imageView.image = rowHandler(item)
         
-        //        // Set selection number
+        // Set selection number
         if let index = selections.index(of: item) {
-            if let character = settings?.selectionCharacter {
+            if let character = settings.selectionCharacter {
                 cell.selectionString = String(character)
             } else {
                 cell.selectionString = String(index+1)
@@ -65,7 +65,7 @@ open class CustomPhotoDataSource<T: AnyObject> : NSObject, UICollectionViewDataS
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+    public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
         
         let item = self.items[indexPath.row]
@@ -89,7 +89,7 @@ open class CustomPhotoDataSource<T: AnyObject> : NSObject, UICollectionViewDataS
         } else {
             self.selections.append(item)
             
-            if let selectionCharacter = self.settings?.selectionCharacter {
+            if let selectionCharacter = self.settings.selectionCharacter {
                 cell.selectionString = String(selectionCharacter)
             } else {
                 cell.selectionString = String(self.selections.count)
@@ -104,7 +104,7 @@ open class CustomPhotoDataSource<T: AnyObject> : NSObject, UICollectionViewDataS
         return false
     }
     
-    func registerCellIdentifiersForCollectionView(_ collectionView: UICollectionView?) {
+    public func registerCellIdentifiersForCollectionView(_ collectionView: UICollectionView?) {
         collectionView?.register(UINib(nibName: "PhotoCell", bundle: nil), forCellWithReuseIdentifier: photoCellIdentifier)
     }
     
