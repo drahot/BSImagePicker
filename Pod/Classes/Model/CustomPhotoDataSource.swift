@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-open class PhotoCollectionViewDataSource<T: AnyObject> : NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
+open class CustomPhotoDataSource<T: AnyObject> : NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var selections = [T]()
     var items: [T]
