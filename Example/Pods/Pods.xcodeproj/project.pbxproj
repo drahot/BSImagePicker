@@ -39,6 +39,7 @@
 		7A88D9EC5D04CADE31F0D98728250C46 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 178C7A9BE3CAA64DF6EF2669670B16C6 /* Photos.framework */; };
 		7CD9C488F07273664772B1AA302D9D85 /* Albums.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 99CC0BCEC01BCBA23C3768506A4F63B4 /* Albums.storyboard */; };
 		85799C535548092D4DCE1D3137FD483B /* UIButton+NoAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC7047F1964327C5D56E6055AFC0D91 /* UIButton+NoAnimation.swift */; };
+		9946DDB71E9E2BF80095888B /* CustomPhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9946DDB51E9E2A660095888B /* CustomPhotoDataSource.swift */; };
 		995A0F140437B85FB6CC2206C018CB07 /* AlbumTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A81F60675FC62437C1CF53E1714BAF52 /* AlbumTableViewDataSource.swift */; };
 		A727C60BC069E259ABB379DAB8A91FE2 /* CameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77316728C04753404C3696124D38883E /* CameraCell.xib */; };
 		AFF15E61237841048E57610588C641FB /* BSImagePicker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E55CF3494345E87C43B47CAFF6DB554 /* BSImagePicker-dummy.m */; };
@@ -173,6 +174,7 @@
 		92121642335D51FEFD0F7951B1AC198C /* Settings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98A414379630F80D7AB3EC73E1722073 /* BSImagePicker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BSImagePicker-prefix.pch"; sourceTree = "<group>"; };
+		9946DDB51E9E2A660095888B /* CustomPhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPhotoDataSource.swift; sourceTree = "<group>"; };
 		99CC0BCEC01BCBA23C3768506A4F63B4 /* Albums.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = Albums.storyboard; sourceTree = "<group>"; };
 		99D4CA5EA3AE683ACD07843A8A314751 /* UIImageViewModeScaleAspect.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIImageViewModeScaleAspect.h; path = UIImageViewModeScaleAspect/UIImageViewModeScaleAspect.h; sourceTree = "<group>"; };
 		9A936BC895ACB48A04B64BE4915EC567 /* Pods-BSImagePicker_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BSImagePicker_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				7B4FC4A0D20DB0EEEF28D022454DBEB1 /* ComposedCollectionViewDataSource.swift */,
 				F82038D408B98900D1CA1747F5A0E0A5 /* PhotoCollectionViewDataSource.swift */,
 				92121642335D51FEFD0F7951B1AC198C /* Settings.swift */,
+				9946DDB51E9E2A660095888B /* CustomPhotoDataSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -809,6 +812,7 @@
 				1EC10A9CF4C9B064BA5411711E59E580 /* PhotoCollectionViewDataSource.swift in Sources */,
 				5BF30D102110025508C05356BA13F8CD /* PhotosViewController.swift in Sources */,
 				CB1D5DF2292BAE15854DAA24B8D4A4CE /* PreviewViewController.swift in Sources */,
+				9946DDB71E9E2BF80095888B /* CustomPhotoDataSource.swift in Sources */,
 				23D8703FA5DEE897EE64E590465BDEB5 /* SelectionView.swift in Sources */,
 				D130664E5AB3AE440900439850877B31 /* Settings.swift in Sources */,
 				85799C535548092D4DCE1D3137FD483B /* UIButton+NoAnimation.swift in Sources */,
