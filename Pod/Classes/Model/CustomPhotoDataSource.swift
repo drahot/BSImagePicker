@@ -6,30 +6,35 @@
 //
 //
 
-import Foundation
 import UIKit
+import BSGridCollectionViewLayout
 
 open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var selections = [T]()
-    var items: [T]!
-    var viewController: UIViewController
+    public var selections = [T]()
+    public var items: [T]!
+    public var changeSelections: (([T]) -> Void)? = nil
+    
+    var collectionView: UICollectionView!
+    
     var settings: Settings = Settings()
     let rowHandler: ((T) -> UIImage)
     
     fileprivate let photoCellIdentifier = "photoCellIdentifier"
-    //    fileprivate let imageContentMode: PHImageContentMode = .aspectFill
     
     let bundle: Bundle = Bundle(path: Bundle(for: PhotosViewController.self).path(forResource: "BSImagePicker", ofType: "bundle")!)!
     
-    public init(_ items: [T], viewController: UIViewController, rowHandler: @escaping ((T) -> UIImage), selections: [T]? = nil) {
+    public init(_ items: [T], collectionView: UICollectionView!, rowHandler: @escaping ((T) -> UIImage), selections: [T]? = nil) {
         self.items = items
-        self.viewController = viewController
-        //        self.settings = settings
+        self.collectionView = collectionView
         self.rowHandler = rowHandler
         if let selections = selections {
             self.selections = selections
         }
+        super.init()
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.collectionViewLayout = GridCollectionViewLayout()
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -47,6 +52,8 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
         cell.accessibilityIdentifier = "photo_cell_\(indexPath.item)"
         cell.settings = settings
         let item = self.items[indexPath.row]
+        cell.imageView.contentMode = .scaleAspectFill
+        cell.imageView.sizeToFit()
         cell.imageView.image = rowHandler(item)
         
         // Set selection number
@@ -69,7 +76,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
         guard let cell = collectionView.cellForItem(at: indexPath) as? PhotoCell else { return false }
         
         let item = self.items[indexPath.row]
-        if let index = self.selections.index(of: item) {
+        if let index = self.selections.index(of: item) { // DeSelect
             // Deselect asset
             self.selections.remove(at: index)
             
@@ -86,7 +93,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
             UIView.setAnimationsEnabled(true)
             
             cell.photoSelected = false
-        } else {
+        } else if selections.count < settings.maxNumberOfSelections { // Select
             self.selections.append(item)
             
             if let selectionCharacter = self.settings.selectionCharacter {
@@ -98,14 +105,112 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
             cell.photoSelected = true
         }
         
-        // Update done button
-        self.viewController.navigationItem.rightBarButtonItem?.isEnabled = !self.selections.isEmpty
+        if let changeSelectionsHandler = self.changeSelections {
+            changeSelectionsHandler(self.selections)
+        }
         
         return false
     }
     
     public func registerCellIdentifiersForCollectionView(_ collectionView: UICollectionView?) {
-        collectionView?.register(UINib(nibName: "PhotoCell", bundle: nil), forCellWithReuseIdentifier: photoCellIdentifier)
+        collectionView?.register(UINib(nibName: "PhotoCell", bundle: self.bundle), forCellWithReuseIdentifier: photoCellIdentifier)
+    }
+    
+    
+}
+
+// MARK: CustomPhotoDataSource proxy
+extension CustomPhotoDataSource: BSImagePickerSettings {
+    
+    public var maxNumberOfSelections: Int {
+        get {
+            return settings.maxNumberOfSelections
+        }
+        set {
+            settings.maxNumberOfSelections = newValue
+        }
+    }
+    
+    public var selectionCharacter: Character? {
+        get {
+            return settings.selectionCharacter
+        }
+        set {
+            settings.selectionCharacter = newValue
+        }
+    }
+    
+    public var selectionFillColor: UIColor {
+        get {
+            return settings.selectionFillColor
+        }
+        set {
+            settings.selectionFillColor = newValue
+        }
+    }
+    
+    public var selectionStrokeColor: UIColor {
+        get {
+            return settings.selectionStrokeColor
+        }
+        set {
+            settings.selectionStrokeColor = newValue
+        }
+    }
+    
+    public var selectionShadowColor: UIColor {
+        get {
+            return settings.selectionShadowColor
+        }
+        set {
+            settings.selectionShadowColor = newValue
+        }
+    }
+    
+    public var selectionTextAttributes: [String: AnyObject] {
+        get {
+            return settings.selectionTextAttributes
+        }
+        set {
+            settings.selectionTextAttributes = newValue
+        }
+    }
+    
+    public var backgroundColor: UIColor {
+        get {
+            return settings.backgroundColor
+        }
+        set {
+            settings.backgroundColor = newValue
+        }
+    }
+    
+    public var cellsPerRow: (_ verticalSize: UIUserInterfaceSizeClass, _ horizontalSize: UIUserInterfaceSizeClass) -> Int {
+        get {
+            return settings.cellsPerRow
+        }
+        set {
+            settings.cellsPerRow = newValue
+        }
+    }
+    
+    public var takePhotos: Bool {
+        get {
+            return settings.takePhotos
+        }
+        set {
+            settings.takePhotos = newValue
+        }
+    }
+    
+    public var takePhotoIcon: UIImage? {
+        get {
+            return settings.takePhotoIcon
+        }
+        set {
+            settings.takePhotoIcon = newValue
+        }
     }
     
 }
+
