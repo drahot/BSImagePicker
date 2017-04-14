@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import UIKit
 import BSGridCollectionViewLayout
 
@@ -14,6 +15,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
     public var selections = [T]()
     public var items: [T]!
     public var changeSelections: (([T]) -> Void)? = nil
+    public var imageSize: CGSize = CGSize.zero
     
     var collectionView: UICollectionView!
     
@@ -21,6 +23,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
     let rowHandler: ((T) -> UIImage)
     
     fileprivate let photoCellIdentifier = "photoCellIdentifier"
+    
     
     let bundle: Bundle = Bundle(path: Bundle(for: PhotosViewController.self).path(forResource: "BSImagePicker", ofType: "bundle")!)!
     
@@ -53,8 +56,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
         cell.settings = settings
         let item = self.items[indexPath.row]
         cell.imageView.contentMode = .scaleAspectFill
-        cell.imageView.sizeToFit()
-        cell.imageView.image = rowHandler(item)
+        cell.imageView.image = resize(rowHandler(item), size: self.imageSize)
         
         // Set selection number
         if let index = selections.index(of: item) {
@@ -93,7 +95,7 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
             UIView.setAnimationsEnabled(true)
             
             cell.photoSelected = false
-        } else if selections.count < settings.maxNumberOfSelections { // Select
+        } else if self.selections.count < self.settings.maxNumberOfSelections { // Select
             self.selections.append(item)
             
             if let selectionCharacter = self.settings.selectionCharacter {
@@ -116,6 +118,17 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
         collectionView?.register(UINib(nibName: "PhotoCell", bundle: self.bundle), forCellWithReuseIdentifier: photoCellIdentifier)
     }
     
+    private func resize(_ image: UIImage, size: CGSize) -> UIImage {
+        let widthRatio = size.width / image.size.width
+        let heightRatio = size.height / image.size.height
+        let ratio = (widthRatio < heightRatio) ? widthRatio : heightRatio
+        let resizedSize = CGSize(width: (image.size.width * ratio), height: (image.size.height * ratio))
+        UIGraphicsBeginImageContext(resizedSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage!
+    }
     
 }
 
