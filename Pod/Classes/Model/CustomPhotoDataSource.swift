@@ -24,7 +24,6 @@ open class CustomPhotoDataSource<T: NSObject>: NSObject, UICollectionViewDataSou
     
     fileprivate let photoCellIdentifier = "photoCellIdentifier"
     
-    
     let bundle: Bundle = Bundle(path: Bundle(for: PhotosViewController.self).path(forResource: "BSImagePicker", ofType: "bundle")!)!
     
     public init(_ items: [T], collectionView: UICollectionView!, rowHandler: @escaping ((T) -> UIImage), selections: [T]? = nil) {
