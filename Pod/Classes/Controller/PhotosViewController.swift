@@ -147,7 +147,7 @@ final class PhotosViewController : UICollectionViewController {
     }
     
     // MARK: Button actions
-    func cancelButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
         guard let closure = cancelClosure, let photosDataSource = photosDataSource else {
             dismiss(animated: true, completion: nil)
             return
@@ -159,7 +159,7 @@ final class PhotosViewController : UICollectionViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func doneButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
         guard let closure = finishClosure, let photosDataSource = photosDataSource else {
             dismiss(animated: true, completion: nil)
             return
@@ -172,7 +172,7 @@ final class PhotosViewController : UICollectionViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func albumButtonPressed(_ sender: UIButton) {
+    @objc func albumButtonPressed(_ sender: UIButton) {
         guard let popVC = albumsViewController.popoverPresentationController else {
             return
         }
@@ -188,7 +188,7 @@ final class PhotosViewController : UICollectionViewController {
         present(albumsViewController, animated: true, completion: nil)
     }
     
-    func collectionViewLongPressed(_ sender: UIGestureRecognizer) {
+    @objc func collectionViewLongPressed(_ sender: UIGestureRecognizer) {
         if sender.state == .began {
             // Disable recognizer while we are figuring out location and pushing preview
             sender.isEnabled = false

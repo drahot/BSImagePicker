@@ -177,7 +177,7 @@ extension CustomPhotoDataSource: BSImagePickerSettings {
         }
     }
     
-    public var selectionTextAttributes: [String: AnyObject] {
+    public var selectionTextAttributes: [NSAttributedStringKey: Any] {
         get {
             return settings.selectionTextAttributes
         }

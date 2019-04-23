@@ -196,7 +196,7 @@ extension BSImagePickerViewController: BSImagePickerSettings {
     /**
      See BSImagePicketSettings for documentation
      */
-    public var selectionTextAttributes: [String: AnyObject] {
+    public var selectionTextAttributes: [NSAttributedStringKey: Any] {
         get {
             return settings.selectionTextAttributes
         }
