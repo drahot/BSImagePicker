@@ -54,7 +54,7 @@ public protocol BSImagePickerSettings {
     /**
     Attributes for text inside circle. Color, font, etc
     */
-    var selectionTextAttributes: [NSAttributedStringKey: Any] { get set }
+    var selectionTextAttributes: [NSAttributedString.Key: Any] { get set }
     
     /**
      BackgroundColor

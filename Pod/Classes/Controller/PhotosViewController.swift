@@ -235,7 +235,7 @@ final class PhotosViewController : UICollectionViewController {
                 if let btn = view as? UIButton , checkIfRightButtonItem(btn) {
                     // Store original title if we havn't got it
                     if doneBarButtonTitle == nil {
-                        doneBarButtonTitle = btn.title(for: UIControlState())
+                        doneBarButtonTitle = btn.title(for: UIControl.State())
                     }
                     
                     // Update title
@@ -243,11 +243,11 @@ final class PhotosViewController : UICollectionViewController {
                         // Special case if we have selected 1 image and that is
                         // the max number of allowed selections
                         if (photosDataSource.selections.count == 1 && self.settings.maxNumberOfSelections == 1) {
-                            btn.bs_setTitleWithoutAnimation("\(doneBarButtonTitle)", forState: UIControlState())
+                            btn.bs_setTitleWithoutAnimation("\(doneBarButtonTitle)", forState: UIControl.State())
                         } else if photosDataSource.selections.count > 0 {
-                            btn.bs_setTitleWithoutAnimation("\(doneBarButtonTitle) (\(photosDataSource.selections.count))", forState: UIControlState())
+                            btn.bs_setTitleWithoutAnimation("\(doneBarButtonTitle) (\(photosDataSource.selections.count))", forState: UIControl.State())
                         } else {
-                            btn.bs_setTitleWithoutAnimation(doneBarButtonTitle, forState: UIControlState())
+                            btn.bs_setTitleWithoutAnimation(doneBarButtonTitle, forState: UIControl.State())
                         }
                         
                         // Enabled?
@@ -426,7 +426,7 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 }
 // MARK: UINavigationControllerDelegate
 extension PhotosViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {
             return expandAnimator
         } else {
@@ -470,8 +470,8 @@ extension PhotosViewController {
 
 // MARK: UIImagePickerControllerDelegate
 extension PhotosViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
             picker.dismiss(animated: true, completion: nil)
             return
         }
