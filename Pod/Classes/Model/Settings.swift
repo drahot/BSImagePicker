@@ -36,9 +36,9 @@ final class Settings : BSImagePickerSettings {
         paragraphStyle.lineBreakMode = .byTruncatingTail
         paragraphStyle.alignment = .center
         return [
-            NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10.0),
-            NSParagraphStyleAttributeName: paragraphStyle,
-            NSForegroundColorAttributeName: UIColor.white
+            NSAttributedStringKey.font.rawValue: UIFont.boldSystemFont(ofSize: 10.0),
+            NSAttributedStringKey.paragraphStyle.rawValue: paragraphStyle,
+            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white
         ]
     }()
     var backgroundColor: UIColor = UIColor.white
