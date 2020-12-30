@@ -49,13 +49,12 @@ final class CameraCell: UICollectionViewCell {
             session?.addInput(input)
             
             // Setup capture layer
-            if let captureLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session!) {
-                captureLayer.frame = bounds
-                captureLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                cameraBackground.layer.addSublayer(captureLayer)
-                
-                self.captureLayer = captureLayer
-            }
+            let captureLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: session!) {
+            captureLayer.frame = bounds
+            captureLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            cameraBackground.layer.addSublayer(captureLayer)
+            
+            self.captureLayer = captureLayer
         } catch {
             session = nil
         }
